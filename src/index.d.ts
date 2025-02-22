@@ -31,7 +31,7 @@ type ExcludeMethod<T, Method extends keyof T> = {
 	[K in Exclude<keyof T, Method>]: T[K];
 };
 
-type PublicSignal<T extends SignalGeneric> = ExcludeMethod<Signal<T>, "Fire" | "Destroy" | "DisconnectAll">;
+type PublicSignal<T extends SignalGeneric = () => void> = ExcludeMethod<Signal<T>, "Fire" | "Destroy" | "DisconnectAll">;
 
 interface SignalConstructor {
 	is: <T extends SignalGeneric = (...args: any[]) => void>(val: unknown) => val is Signal<T>;
