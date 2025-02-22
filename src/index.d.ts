@@ -27,6 +27,12 @@ interface Signal<T extends SignalGeneric = () => void> {
 	Destroy(): void;
 }
 
+type ExcludeMethod<T, Method extends keyof T> = {
+	[K in Exclude<keyof T, Method>]: T[K];
+};
+
+type PublicSignal<T extends SignalGeneric> = ExcludeMethod<Signal<T>, "Fire" | "Destroy" | "DisconnectAll">;
+
 interface SignalConstructor {
 	is: <T extends SignalGeneric = (...args: any[]) => void>(val: unknown) => val is Signal<T>;
 	wrap: <T extends Callback>(signal: RBXScriptSignal<T>) => Signal<T>;
@@ -36,4 +42,4 @@ interface SignalConstructor {
 declare const Signal: SignalConstructor;
 
 export default Signal;
-export { Signal, Connection, GetSignalCallback };
+export { Signal, Connection, GetSignalCallback, PublicSignal };
