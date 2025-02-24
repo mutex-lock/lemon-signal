@@ -10,6 +10,7 @@ type SignalGeneric = SignalCallback | defined[] | defined;
 
 type GetSignalCallback<T extends SignalGeneric> = T extends SignalCallback
 	? T
+	: T extends boolean ? (bool: boolean) => void
 	: T extends defined[]
 		? (...args: T) => void
 		: T extends defined
