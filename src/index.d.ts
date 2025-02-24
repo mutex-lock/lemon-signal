@@ -34,6 +34,8 @@ type ExcludeMethod<T, Method extends keyof T> = {
 
 type PublicSignal<T extends SignalGeneric = () => void> = ExcludeMethod<Signal<T>, "Fire" | "Destroy" | "DisconnectAll">;
 
+type GetPublicSignal<T extends Signal<SignalGeneric>> = T extends Signal<infer G> ? PublicSignal<G> : never;
+
 interface SignalConstructor {
 	is: <T extends SignalGeneric = (...args: any[]) => void>(val: unknown) => val is Signal<T>;
 	wrap: <T extends Callback>(signal: RBXScriptSignal<T>) => Signal<T>;
@@ -43,4 +45,4 @@ interface SignalConstructor {
 declare const Signal: SignalConstructor;
 
 export default Signal;
-export { Signal, Connection, GetSignalCallback, PublicSignal };
+export { Signal, Connection, GetSignalCallback, PublicSignal, GetPublicSignal };
